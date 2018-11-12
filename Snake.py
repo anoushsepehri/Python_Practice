@@ -1,6 +1,7 @@
 import curses
 import time
 import random
+import math
 
 win=curses.initscr()
 curses.curs_set(0)
@@ -26,7 +27,11 @@ def get_rand_food(sh,sw):
 while True:
 	var=scr.getch()
 	if var==curses.KEY_LEFT:
-		scr.addstr(10,10,"TEST")
-		scr.refresh()
+		scr.clear()
+		scr.addstr(20,20,"left key")
+
+	elif var==curses.KEY_RIGHT:
+		scr.clear()
+		scr.addstr(20,20,"right key")
 
 
