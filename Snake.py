@@ -4,11 +4,12 @@ import random
 
 win=curses.initscr()
 curses.curs_set(0)
-win.keypad(1)
+curses.noecho()
 
 sh,sw=win.getmaxyx()
 scr=curses.newwin(sh,sw,0,0)
-#scr.timeout(100) 
+scr.keypad(True)
+scr.timeout(100) 
 
 
 
@@ -21,8 +22,11 @@ def get_rand_food(sh,sw):
 	scr.refresh()
 	return
 
+#getch testings implement later
+while True:
+	var=scr.getch()
+	if var==curses.KEY_LEFT:
+		scr.addstr(10,10,"TEST")
+		scr.refresh()
 
 
-while (1):
-	get_rand_food(sh,sw)
-	time.sleep(2)
