@@ -13,48 +13,33 @@ scr.keypad(True)
 scr.timeout(100) 
 
 
-
+#Function: food placement
 def get_rand_food(sh,sw):
 	food_x=random.randint(0,sw)
 	food_y=random.randint(0,sh)
 	scr.addstr(food_y,food_x,"$")
 	scr.refresh()
-	return
+	return food_y,food_x
 
 def print_snake(snake):
-	#scr.clear()
-	i=0
-	while i<4:
-		scr.addch(snake[i][0],snake[i][1],curses.ACS_CKBOARD)
-		i+=1
+	for var in snake:
+		scr.addch(var[0],var[1],curses.ACS_CKBOARD)
 	return
 
-def move_snake(var):
-	if var==curses.KEY_LEFT:
-		head=[snake[0][0],snake[0][1]-1]
-		scr.addstr(snake[3][0],snake[3][1]," ")
-		snake.insert(0,head)
-		print_snake(snake)
 
-	elif var==curses.KEY_RIGHT:
-		head=[snake[0][0],snake[0][1]+1]
-		scr.addstr(snake[3][0],snake[3][1]," ")
-		snake.insert(0,head)
-		print_snake(snake)
+def check_food(snake,food_y,food_x,head):
 
-	elif var==curses.KEY_UP:
-		head=[snake[0][0]-1,snake[0][1]]
-		scr.addstr(snake[3][0],snake[3][1]," ")
-		snake.insert(0,head)
-		print_snake(snake)
+	if head[0]==food_y and head[1]==food_x:
+		food_y,food_x=get_rand_food(sh,sw)
+	else:
+		scr.addstr(snake[-1][0],snake[-1][1],' ')
+		snake.pop()
 
-	elif var==curses.KEY_DOWN:
-		head=[snake[0][0]+1,snake[0][1]]
-		scr.addstr(snake[3][0],snake[3][1]," ")
-		snake.insert(0,head)
-		print_snake(snake)
-	return
+	return food_y,food_x
 
+
+food_x=0
+food_y=0
 
 #SNAKE INITIALIZATION
 snk_y=10
@@ -69,18 +54,53 @@ snake=[
 #SETUP STARTING SCENE
 print_snake(snake)
 var=scr.getch()
-get_rand_food(sh,sw)
+food_y,food_x=get_rand_food(sh,sw)
 
 
 
-#Infinite loop to dcontrol movement of the snake
+
+#Infinite loop to control movement of the snake
 while True:
 
 	d=scr.getch()
 	if d!=-1:
 		var=d
 
-	move_snake(var)
+
+	if var==curses.KEY_LEFT:
+		head=[snake[0][0],snake[0][1]-1]
+
+		food_y,food_x=check_food(snake,food_y,food_x,head)
+
+		snake.insert(0,head)
+		print_snake(snake)
 
 
 
+	elif var==curses.KEY_RIGHT:
+		head=[snake[0][0],snake[0][1]+1]
+
+		food_y,food_x=check_food(snake,food_y,food_x,head)
+
+		snake.insert(0,head)
+		print_snake(snake)
+
+
+
+	elif var==curses.KEY_UP:
+		head=[snake[0][0]-1,snake[0][1]]
+
+		food_y,food_x=check_food(snake,food_y,food_x,head)
+
+		snake.insert(0,head)
+		print_snake(snake)
+
+
+
+	elif var==curses.KEY_DOWN:
+		head=[snake[0][0]+1,snake[0][1]]
+
+		food_y,food_x=check_food(snake,food_y,food_x,head)
+
+		snake.insert(0,head)
+		print_snake(snake)
