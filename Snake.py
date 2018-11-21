@@ -1,8 +1,6 @@
 import curses
 import random
 
-
-
 def get_rand_food(sh,sw,snake):
 	food_x=random.randint(0,sw)
 	food_y=random.randint(0,sh)
@@ -33,6 +31,7 @@ def check_lost(snake,head):
 			quit()
 	return
 
+#MAIN 
 
 #Screen Initialization
 win=curses.initscr()
